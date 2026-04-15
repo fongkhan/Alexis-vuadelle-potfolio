@@ -1,0 +1,8 @@
+{
+  "name": "alexis-vuadelle-portfolio",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "cms"
+  ]
+}

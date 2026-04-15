@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0f111a;
+  --color-surface: #1e2130;
+  --color-primary: #8b5cf6;
+  --color-secondary: #ec4899;
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans antialiased min-h-screen selection:bg-primary/30;
+    background-image: 
+      radial-gradient(circle at top right, rgba(139, 92, 246, 0.15), transparent 40%),
+      radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.1), transparent 40%);
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-surface/60 backdrop-blur-md border border-white/10 shadow-xl;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.2)] hover:border-primary/30;
+  }
+}

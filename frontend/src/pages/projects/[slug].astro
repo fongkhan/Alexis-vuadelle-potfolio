@@ -1,0 +1,91 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { fetchProjects, fetchProject } from '../../lib/api';
+
+export async function getStaticPaths() {
+  const projects = await fetchProjects();
+  return projects.map((project: any) => ({
+    params: { slug: project.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const project = await fetchProject(slug as string);
+
+if (!project) {
+  return Astro.redirect('/404');
+}
+
+// Convert Lexical rich text loosely. In a real app we would use payload's rich text renderer
+function renderContent(content: any) {
+  if (!content?.root?.children) return '';
+  return content.root.children.map((node: any) => {
+    if (node.type === 'paragraph') {
+      const text = node.children?.map((c: any) => c.text).join('') || '';
+      return `<p class="mb-4 text-text-muted leading-relaxed">${text}</p>`;
+    }
+    if (node.type === 'heading') {
+      const text = node.children?.map((c: any) => c.text).join('') || '';
+      return `<h${node.tag} class="text-2xl font-bold mt-8 mb-4 text-white">${text}</h${node.tag}>`;
+    }
+    return '';
+  }).join('');
+}
+
+const htmlContent = renderContent(project.content);
+---
+
+<Layout title={`${project.title} - Portfolio`}>
+  <Header />
+  
+  <main class="relative z-10 pt-32 pb-24 max-w-4xl mx-auto px-6 min-h-screen">
+    <div class="mb-8">
+      <a href="/projects" class="text-primary hover:text-white transition-colors inline-flex items-center gap-2 mb-8">
+        ← Back to Projects
+      </a>
+      
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">{project.title}</h1>
+      
+      {project.techStack && project.techStack.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-8">
+          {project.techStack.map((tech: any) => (
+            <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/5 text-text-muted border border-white/5">
+              {tech.technology}
+            </span>
+          ))}
+        </div>
+      )}
+      
+      <div class="flex gap-4">
+        {project.liveUrl && (
+          <a href={project.liveUrl} target="_blank" class="px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-white font-medium transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(139,92,246,0.5)]">
+            Live Demo
+          </a>
+        )}
+        {project.githubUrl && (
+          <a href={project.githubUrl} target="_blank" class="px-6 py-3 rounded-full glass hover:bg-white/10 text-white font-medium transition-all hover:scale-105 active:scale-95">
+            Source Code
+          </a>
+        )}
+      </div>
+    </div>
+    
+    {project.featuredImage?.url && (
+      <div class="w-full aspect-video rounded-2xl overflow-hidden glass mb-12">
+        <img 
+          src={`http://localhost:3000${project.featuredImage.url}`} 
+          alt={project.featuredImage.alt || project.title}
+          class="w-full h-full object-cover"
+        />
+      </div>
+    )}
+    
+    <article class="prose prose-invert max-w-none text-lg">
+      <div set:html={htmlContent} />
+    </article>
+  </main>
+  
+  <Footer />
+</Layout>

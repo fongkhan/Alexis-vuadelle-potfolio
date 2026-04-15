@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { fetchProjects } from '../../lib/api';
+
+const projects = await fetchProjects();
+---
+
+<Layout title="All Projects - Portfolio">
+  <Header />
+  
+  <main class="relative z-10 pt-32 pb-24 max-w-6xl mx-auto px-6 min-h-screen">
+    <div class="mb-12">
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">All Projects</h1>
+      <p class="text-text-muted text-xl max-w-2xl">A comprehensive list of my side projects, experiments, and applications.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project: any) => (
+        <ProjectCard 
+          title={project.title}
+          slug={project.slug}
+          techStack={project.techStack}
+          featuredImage={project.featuredImage}
+        />
+      ))}
+      {projects.length === 0 && (
+        <div class="col-span-full py-20 text-center glass rounded-2xl">
+          <p class="text-text-muted">No projects found. Try adding some from PayloadCMS.</p>
+        </div>
+      )}
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>

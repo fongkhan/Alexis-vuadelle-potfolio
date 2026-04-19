@@ -8,25 +8,17 @@ import ContactSection from '../components/ContactSection.astro';
 import Footer from '../components/Footer.astro';
 import { fetchProjects, fetchProfile, fetchHomePage, fetchAboutPage } from '../lib/api';
 
+import { renderLexicalHtml } from '../lib/lexicalRender';
+
 const profile = await fetchProfile();
 const homePage = await fetchHomePage();
 const aboutPage = await fetchAboutPage();
 const projects = await fetchProjects();
 
-// Parse Lexical AST to HTML for Career block (Pulled from about.astro logic)
-let parsedAboutHtml = '<p class="text-text-muted italic">I am a passionate developer who builds dynamic performant projects.</p>';
-if (aboutPage?.content?.root?.children) {
-  parsedAboutHtml = aboutPage.content.root.children.map((node: any) => {
-    if (node.type === 'paragraph') {
-      const text = node.children?.map((c: any) => c.text).join('') || '';
-      return `<p class="mb-4 text-text-muted leading-relaxed">${text}</p>`;
-    }
-    if (node.type === 'heading') {
-      const text = node.children?.map((c: any) => c.text).join('') || '';
-      return `<h${node.tag} class="text-2xl font-heading font-bold mt-8 mb-4 text-text">${text}</h${node.tag}>`;
-    }
-    return '';
-  }).join('');
+// Parse Lexical AST to HTML using the recursive helper
+let parsedAboutHtml = renderLexicalHtml(aboutPage?.content);
+if (!parsedAboutHtml) {
+  parsedAboutHtml = '<p class="text-text-muted italic">I am a passionate developer who builds dynamic performant projects.</p>';
 }
 
 // Extract SEO fields from Payload SEO plugin

@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { fetchProjects, fetchProject } from '../../lib/api';
+import { renderLexicalHtml } from '../../lib/lexicalRender';
 
 export async function getStaticPaths() {
   const projects = await fetchProjects();
@@ -19,23 +20,7 @@ if (!project) {
   return Astro.redirect('/404');
 }
 
-// Convert Lexical rich text loosely. In a real app we would use payload's rich text renderer
-function renderContent(content: any) {
-  if (!content?.root?.children) return '';
-  return content.root.children.map((node: any) => {
-    if (node.type === 'paragraph') {
-      const text = node.children?.map((c: any) => c.text).join('') || '';
-      return `<p class="mb-4 text-text-muted leading-relaxed">${text}</p>`;
-    }
-    if (node.type === 'heading') {
-      const text = node.children?.map((c: any) => c.text).join('') || '';
-      return `<h${node.tag} class="text-2xl font-heading font-bold mt-8 mb-4 text-text">${text}</h${node.tag}>`;
-    }
-    return '';
-  }).join('');
-}
-
-const htmlContent = renderContent(project.content);
+const htmlContent = renderLexicalHtml(project.content);
 ---
 
 <Layout title={`${project.title} - Portfolio`}>

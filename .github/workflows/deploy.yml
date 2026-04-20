@@ -1,0 +1,53 @@
+name: Deploy to O2Switch via SSH
+
+on:
+  push:
+    branches:
+      - main  # Set this to the branch you want to trigger the deployment
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute Deployment Commands via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.O2SWITCH_HOST }}
+          username: ${{ secrets.O2SWITCH_USER }}
+          password: ${{ secrets.O2SWITCH_PASSWORD }}
+          # Alternatively use SSH keys:
+          # key: ${{ secrets.O2SWITCH_SSH_KEY }}
+          port: 22
+          script_stop: true
+          # Replace 'YOUR_FOLDER_NAME' with the actual folder name of your portfolio on o2switch
+          script: |
+            echo "Navigating to project directory..."
+            # Adjust the path beneath to match where you git cloned this repository in o2switch
+            cd /home/${{ secrets.O2SWITCH_USER }}/public_html/YOUR_FOLDER_NAME
+            
+            echo "Pulling latest code from GitHub main branch..."
+            git pull origin main
+
+            echo "================================="
+            echo "1. Building the Frontend (Astro)"
+            echo "================================="
+            cd frontend
+            npm install
+            npm run build
+            # 'touch tmp/restart.txt' is the command Phusion Passenger (cPanel) looks for to restart the Node app
+            mkdir -p tmp
+            touch tmp/restart.txt 
+            cd ..
+
+            echo "================================="
+            echo "2. Building the CMS (Next.js)"
+            echo "================================="
+            cd cms
+            npm install
+            npm run build
+            mkdir -p tmp
+            touch tmp/restart.txt 
+
+            echo "Deployment Completed Successfully! Both Phusion Passenger apps dynamically restarted."

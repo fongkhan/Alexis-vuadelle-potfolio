@@ -12,14 +12,20 @@ const { headline, bio, profilePicture, profile } = Astro.props;
 
 <section
   id="home"
-  class="min-h-screen flex flex-col md:flex-row items-center justify-between section-container gap-12 pt-72 md:pt-40 lg:pt-48 pb-24 scroll-mt-24"
+  class="min-h-screen flex flex-col md:flex-row items-center justify-center md:justify-between section-container gap-12 pt-16 md:pt-40 lg:pt-48 pb-24 scroll-mt-24"
 >
-  <div class="flex-1 text-left relative z-10 w-full max-w-2xl reveal-content" style="animation-delay: 100ms;">
+  <div
+    class="mt-15 md:mt-0 flex-1 text-center md:text-left relative z-10 w-full max-w-2xl reveal-content"
+    style="animation-delay: 100ms;"
+  >
     <div
       class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-4 transition-transform hover:scale-105"
     >
-      <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(139,92,246,0.8)]"></span>
-      <span class="text-sm font-medium text-text uppercase tracking-widest">Disponible pour de nouveaux projets</span
+      <span
+        class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(139,92,246,0.8)]"
+      ></span>
+      <span class="text-sm font-medium text-text uppercase tracking-widest"
+        >Disponible pour de nouveaux projets</span
       >
     </div>
 
@@ -28,7 +34,7 @@ const { headline, bio, profilePicture, profile } = Astro.props;
     >
       {headline || "Data Engineer"}
     </h1>
-    
+
     <p
       class="mt-4 sm:mt-6 font-body text-base sm:text-lg md:text-xl text-text-muted leading-relaxed max-w-xl"
     >
@@ -36,25 +42,23 @@ const { headline, bio, profilePicture, profile } = Astro.props;
     </p>
 
     <div
-      class="mt-4 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4"
+      class="mt-4 flex flex-col sm:flex-row justify-center md:justify-start gap-4"
     >
       <a
         href="#projects"
-        class="px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white rounded-full font-body font-medium transition-all hover:scale-105 active:scale-95 shadow-[0_0_25px_rgba(139,92,246,0.5)] text-center text-sm sm:text-lg"
+        class="px-6 py-4 bg-primary text-white rounded-full font-body font-medium transition-all hover:scale-105 active:scale-95 shadow-[0_0_25px_rgba(139,92,246,0.5)] text-center text-base"
       >
         Découvrir mes projets
       </a>
       <a
         href="#career"
-        class="px-6 sm:px-8 py-3 sm:py-4 glass rounded-full font-body font-medium text-text transition-all hover:bg-slate-100 hover:scale-105 active:scale-95 border-2 border-transparent hover:border-primary/20 text-center text-sm sm:text-lg"
+        class="px-6 py-4 glass rounded-full font-body font-medium text-text transition-all hover:bg-slate-100 hover:scale-105 active:scale-95 border-2 border-transparent hover:border-primary/20 text-center text-base"
       >
         À propos de moi
       </a>
     </div>
 
-    <div
-      class="mt-4 sm:mt-8 flex items-center gap-6"
-    >
+    <div class="mt-6 flex items-center justify-center md:justify-start gap-6">
       {
         profile?.githubLink && (
           <a
@@ -63,7 +67,18 @@ const { headline, bio, profilePicture, profile } = Astro.props;
             aria-label="GitHub"
             class="p-3 glass rounded-full text-text-muted hover:text-primary transition-all hover:scale-110 shadow-sm"
           >
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+            <svg
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </a>
         )
       }
@@ -75,7 +90,18 @@ const { headline, bio, profilePicture, profile } = Astro.props;
             aria-label="LinkedIn"
             class="p-3 glass rounded-full text-text-muted hover:text-primary transition-all hover:scale-110 shadow-sm"
           >
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" /></svg>
+            <svg
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </a>
         )
       }
@@ -87,7 +113,18 @@ const { headline, bio, profilePicture, profile } = Astro.props;
             aria-label="YouTube"
             class="p-3 glass rounded-full text-text-muted hover:text-red-500 transition-all hover:scale-110 shadow-sm"
           >
-            <svg class="w-7 h-7 -m-0.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.996 4C7.036 4 4 4.095 4 4.095C4 4.095 2 4.331 2 6.5C2 7.72 2 12.001 2 12.001C2 12.001 2 16.279 2 17.5C2 19.668 4 19.905 4 19.905C4 19.905 7.036 20 11.996 20C16.953 20 20 19.905 20 19.905C20 19.905 22 19.668 22 17.5C22 16.279 22 12.001 22 12.001C22 12.001 22 7.72 22 6.5C22 4.331 20 4.095 20 4.095C20 4.095 16.953 4 11.996 4ZM9.957 15.419V8.58L15.932 12L9.957 15.419Z" /></svg>
+            <svg
+              class="w-7 h-7 -m-0.5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M11.996 4C7.036 4 4 4.095 4 4.095C4 4.095 2 4.331 2 6.5C2 7.72 2 12.001 2 12.001C2 12.001 2 16.279 2 17.5C2 19.668 4 19.905 4 19.905C4 19.905 7.036 20 11.996 20C16.953 20 20 19.905 20 19.905C20 19.905 22 19.668 22 17.5C22 16.279 22 12.001 22 12.001C22 12.001 22 7.72 22 6.5C22 4.331 20 4.095 20 4.095C20 4.095 16.953 4 11.996 4ZM9.957 15.419V8.58L15.932 12L9.957 15.419Z"
+              />
+            </svg>
           </a>
         )
       }
@@ -99,14 +136,28 @@ const { headline, bio, profilePicture, profile } = Astro.props;
             aria-label="Twitch"
             class="p-3 glass rounded-full text-text-muted hover:text-purple-500 transition-all hover:scale-110 shadow-sm"
           >
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6.429 2.143 2.143 6.428V20h5.143v4.286l4.285-4.286h3.429L22 13.57V2.143zM20.286 12.714l-3.429 3.429H12L8.571 18.714v-2.571H4.714V3.857h15.572z" /></svg>
+            <svg
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6.429 2.143 2.143 6.428V20h5.143v4.286l4.285-4.286h3.429L22 13.57V2.143zM20.286 12.714l-3.429 3.429H12L8.571 18.714v-2.571H4.714V3.857h15.572z"
+              />
+            </svg>
           </a>
         )
       }
     </div>
   </div>
 
-  <div class="flex-1 w-full flex justify-center md:justify-end reveal-content relative z-10 mt-8 md:mt-0" style="animation-delay: 300ms;">
+  <div
+    class="flex-1 w-full flex justify-center md:justify-end reveal-content relative z-10 mt-8 md:mt-0"
+    style="animation-delay: 300ms;"
+  >
     {
       profilePicture ? (
         <div class="relative w-52 h-52 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px] rounded-[3rem] overflow-hidden glass shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-8 border-white/50">

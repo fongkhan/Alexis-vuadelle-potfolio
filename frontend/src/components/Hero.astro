@@ -12,11 +12,11 @@ const { headline, bio, profilePicture, profile } = Astro.props;
 
 <section
   id="home"
-  class="min-h-screen flex flex-col md:flex-row items-center justify-between section-container gap-12 pt-48 md:pt-40 lg:pt-48 pb-24 scroll-mt-24"
+  class="min-h-screen flex flex-col md:flex-row items-center justify-between section-container gap-12 pt-72 md:pt-40 lg:pt-48 pb-24 scroll-mt-24"
 >
   <div class="flex-1 text-left relative z-10 w-full max-w-2xl reveal-content" style="animation-delay: 100ms;">
     <div
-      class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6 transition-transform hover:scale-105"
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-4 transition-transform hover:scale-105"
     >
       <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(139,92,246,0.8)]"></span>
       <span class="text-sm font-medium text-text uppercase tracking-widest">Disponible pour de nouveaux projets</span
@@ -36,7 +36,7 @@ const { headline, bio, profilePicture, profile } = Astro.props;
     </p>
 
     <div
-      class="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4"
+      class="mt-4 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4"
     >
       <a
         href="#projects"
@@ -53,7 +53,7 @@ const { headline, bio, profilePicture, profile } = Astro.props;
     </div>
 
     <div
-      class="mt-12 flex items-center gap-6"
+      class="mt-4 sm:mt-8 flex items-center gap-6"
     >
       {
         profile?.githubLink && (
@@ -109,7 +109,7 @@ const { headline, bio, profilePicture, profile } = Astro.props;
   <div class="flex-1 w-full flex justify-center md:justify-end reveal-content relative z-10 mt-8 md:mt-0" style="animation-delay: 300ms;">
     {
       profilePicture ? (
-        <div class="relative w-56 h-56 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px] rounded-[3rem] overflow-hidden glass shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-8 border-white/50">
+        <div class="relative w-52 h-52 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px] rounded-[3rem] overflow-hidden glass shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border-8 border-white/50">
           <Image
             src={profilePicture}
             alt="Profile"

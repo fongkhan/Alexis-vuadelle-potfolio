@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/fongkhan/alexis-vuadelle/
+    - /bin/rsync -avz --exclude '.git' --exclude 'node_modules' . $DEPLOYPATH
+    - echo "Deployment tasks completed. Note: Node.js builds should be handled via SSH or GitHub Actions for stability."

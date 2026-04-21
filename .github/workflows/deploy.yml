@@ -16,21 +16,14 @@ jobs:
         with:
           host: ${{ secrets.O2SWITCH_HOST }}
           username: ${{ secrets.O2SWITCH_USER }}
-          password: ${{ secrets.O2SWITCH_PASSWORD }}
+          # password: ${{ secrets.O2SWITCH_PASSWORD }}
           # Alternatively use SSH keys:
-          # key: ${{ secrets.O2SWITCH_SSH_KEY }}
+          key: ${{ secrets.O2SWITCH_SSH_KEY }}
           port: 22
           script_stop: true
-          # Replace 'YOUR_FOLDER_NAME' with the actual folder name of your portfolio on o2switch
           script: |
-            echo "Setting up Node.js 20 environment..."
-            export PATH=/opt/alt/alt-nodejs20/root/usr/bin:$PATH
-            
-            node -v
-            npm -v
-
-            echo "Navigating to project directory..."
-            cd /home/${{ secrets.O2SWITCH_USER }}/alexis-vuadelle.com
+            echo "Navigating to project root..."
+            cd /home/fongkhan/alexis-vuadelle
             
             echo "Pulling latest code from GitHub main branch..."
             git pull origin main
@@ -38,21 +31,26 @@ jobs:
             echo "================================="
             echo "1. Building the Frontend (Astro)"
             echo "================================="
-            cd frontend
+            # Activate frontend venv and build
+            source /home/fongkhan/nodevenv/alexis-vuadelle/frontend/24/bin/activate
+            node -v
             npm install
             npm run build
             # 'touch tmp/restart.txt' is the command Phusion Passenger (cPanel) looks for to restart the Node app
             mkdir -p tmp
             touch tmp/restart.txt 
-            cd ..
+            deactivate
 
             echo "================================="
             echo "2. Building the CMS (Next.js)"
             echo "================================="
-            cd cms
+            # Activate cms venv and build
+            source /home/fongkhan/nodevenv/alexis-vuadelle/cms/24/bin/activate
+            node -v
             npm install
             npm run build
             mkdir -p tmp
             touch tmp/restart.txt 
+            deactivate
 
             echo "Deployment Completed Successfully! Both Phusion Passenger apps dynamically restarted."

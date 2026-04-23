@@ -10,7 +10,7 @@ export default defineConfig({
   site: 'https://alexis-vuadelle.com',
   output: 'server',
   adapter: node({
-    mode: 'standalone',
+    mode: 'middleware',
   }),
   image: {
     domains: ['localhost']
@@ -21,6 +21,9 @@ export default defineConfig({
   },
   integrations: [sitemap()],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    resolve: {
+      preserveSymlinks: true
+    }
   }
 });

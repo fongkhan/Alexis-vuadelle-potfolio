@@ -4,33 +4,32 @@ process.env.ASTRO_KEY = 'MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDE=';
 process.env.SITE = 'https://alexis-vuadelle.com';
 process.env.NODE_ENV = 'production';
 
-import express from 'express';
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import http from 'node:http';
 
 /**
  * Custom entry point for o2switch (Phusion Passenger).
- * For Astro apps set to output: 'server' and adapter: node({ mode: 'middleware' }),
- * the core server logic exports a handler function.
+ * 
+ * Uses Astro in STANDALONE mode. In standalone mode, the entry.mjs
+ * exports a `handler` that serves BOTH pages AND static assets
+ * (CSS, JS, images from dist/client/).
+ * 
+ * This is critical because on O2Switch, Apache intercepts requests 
+ * to paths like /_astro/*.css BEFORE they reach Express/Node.
+ * By using standalone mode's built-in handler, Astro serves assets
+ * through the same request pipeline as pages, bypassing Apache.
  */
-import('./dist/server/entry.mjs').then(({ handler }) => {
-    const app = express();
-    
-    // 1. Serve static files from the client directory (CSS, JS, Images) using absolute paths
-    const clientPath = path.join(__dirname, 'dist', 'client');
-    console.log("Serving static files from:", clientPath);
-    app.use(express.static(clientPath));
-    
-    // 2. Use the Astro SSR handler for everything else
-    app.use(handler);
+import('./dist/server/entry.mjs').then(({ handler, startServer }) => {
+    // In standalone mode, Astro's handler already knows how to serve
+    // static assets from dist/client/. We just need to wrap it in
+    // an HTTP server for Passenger.
+    const server = http.createServer((req, res) => {
+        handler(req, res);
+    });
     
     // Phusion Passenger hijacks the listen() call.
-    app.listen();
+    server.listen();
     
-    console.log("Frontend SSR Server with Static Assets initialized for Passenger.");
+    console.log("Frontend SSR Server (standalone handler) initialized for Passenger.");
 }).catch(err => {
     console.error('Frontend failed to start. Ensure you ran `npm run build` before starting the server.', err);
 });

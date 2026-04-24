@@ -8,6 +8,11 @@ process.env.SITE = 'https://alexis-vuadelle.com';
 process.env.NODE_ENV = 'production';
 
 import express from 'express';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Custom entry point for o2switch (Phusion Passenger).
@@ -17,8 +22,10 @@ import express from 'express';
 import('./dist/server/entry.mjs').then(({ handler }) => {
     const app = express();
     
-    // 1. Serve static files from the client directory (CSS, JS, Images)
-    app.use(express.static('./dist/client/'));
+    // 1. Serve static files from the client directory (CSS, JS, Images) using absolute paths
+    const clientPath = path.join(__dirname, 'dist', 'client');
+    console.log("Serving static files from:", clientPath);
+    app.use(express.static(clientPath));
     
     // 2. Use the Astro SSR handler for everything else
     app.use(handler);

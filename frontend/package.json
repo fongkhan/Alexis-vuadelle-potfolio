@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "rm -rf dist .astro node_modules/.vite public/_astro && cross-env NODE_ENV=production NODE_OPTIONS=\"--max-old-space-size=4096\" SITE=https://alexis-vuadelle.com ASTRO_KEY=MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDE= astro build && mkdir -p public && cp -r dist/client/_astro public/_astro",
     "preview": "astro preview",
-    "start": "cross-env NODE_OPTIONS=\"--no-deprecation --no-wasm-memory-reservation\" node server.js",
+    "start": "cross-env NODE_OPTIONS=\"--no-deprecation\" node server.js",
     "astro": "astro"
   },
   "dependencies": {
